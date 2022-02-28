@@ -6,16 +6,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
 	pb "github.com/grpc-demo/protos/userproto"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
-)
-
-const (
-	userGrpcAddress = "localhost:7000"
-	muxAddress      = "0.0.0.0:8000"
 )
 
 var client pb.UserManagmentClient
@@ -40,8 +37,17 @@ func handleNewLoan(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
+	err := godotenv.Load()
+
+	userGrpcAddress := os.Getenv("users_grpc_addr")
+	muxAddress := os.Getenv("users_service_addr")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file %v", err)
+	}
+
 	// GRPC Connection
-	conn, err := grpc.Dial(userGrpcAddress, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(userGrpcAddress, grpc.WithInsecure())
 
 	if err != nil {
 		log.Fatalf("failed to connect to grpc server: %v", err)

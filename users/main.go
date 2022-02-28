@@ -4,8 +4,10 @@ import (
 	"context"
 	"log"
 	"net"
+	"os"
 
 	pb "github.com/grpc-demo/protos/userproto"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
@@ -54,12 +56,14 @@ func (s *UserManagementServer) GetUser(ctx context.Context, userReq *pb.UserReq)
 	return user, nil
 }
 
-const (
-	port = ":7000"
-)
-
 func main() {
-	lis, err := net.Listen("tcp", port)
+
+	err := godotenv.Load()
+
+	userGrpcAddress := os.Getenv("users_grpc_addr")
+	// muxAddress := os.Getenv("loans_service_addr")
+
+	lis, err := net.Listen("tcp", userGrpcAddress)
 
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
