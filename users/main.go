@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"log"
+	"net"
 
 	pb "github.com/grpc-demo/protos/userproto"
+	"google.golang.org/grpc"
 )
 
 type User struct {
@@ -51,6 +54,25 @@ func (s *UserManagementServer) GetUser(ctx context.Context, userReq *pb.UserReq)
 	return user, nil
 }
 
+const (
+	port = ":7000"
+)
+
 func main() {
+	lis, err := net.Listen("tcp", port)
+
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+
+	server := grpc.NewServer()
+
+	pb.RegisterUserManagmentServer(server, &UserManagementServer{})
+
+	log.Printf("Server listening at %v", lis.Addr())
+
+	if err := server.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 
 }
