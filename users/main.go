@@ -17,22 +17,22 @@ type User struct {
 
 var users = []User{
 	{
-		id:    "1",
+		id:    0,
 		name:  "edwin",
 		email: "edwin@mail.com",
 	},
 	{
-		id:    "2",
+		id:    1,
 		name:  "edwin",
 		email: "edwin@mail.com",
 	},
 	{
-		id:    "3",
+		id:    2,
 		name:  "edwin",
 		email: "edwin@mail.com",
 	},
 	{
-		id:    "4",
+		id:    3,
 		name:  "edwin",
 		email: "edwin@mail.com",
 	},
@@ -69,7 +69,7 @@ func main() {
 
 	pb.RegisterUserManagmentServer(server, &UserManagementServer{})
 
-	log.Printf("Server listening at %v", lis.Addr())
+	log.Printf("grpc server listening at %v", lis.Addr())
 
 	if err := server.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
