@@ -1,6 +1,6 @@
 # gRPC demo (Golang)
 
-Microservices communication using gRPC
+Microservices communication using [gRPC](https://grpc.io/)
 
 ## Generate server and client code
 
