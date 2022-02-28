@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package protos.userproto;
+
+option go_package = "github.com/grpc-demo/protos/userproto;grpc_demo";
+
+service UserManagment{ 
+    rpc GetUser (UserReq) returns (User) {}
+}
+
+message UserReq{
+    int32 id = 1;
+}
+
+message User{
+    int32 id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+
